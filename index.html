@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8e9e8">
+<title>りなへ ♡</title>
+<style>
+:root{--ink:#563f48;--rose:#b96f80;--paper:#fffaf7}
+*{box-sizing:border-box}
+body{margin:0;background:#f8e9e8;color:var(--ink);font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif}
+.app{min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:18px 16px}
+.top{width:min(100%,560px);display:flex;justify-content:space-between;align-items:center;color:#9d7882;font-size:12px;letter-spacing:.08em;padding:4px 2px 14px}
+.progress{display:flex;gap:5px}.progress i{width:15px;height:3px;border-radius:9px;background:#e7cbd0}.progress i.on{background:var(--rose)}
+.card{width:min(100%,560px);min-height:min(760px,calc(100svh - 100px));background:var(--paper);border:1px solid #f0dfe0;border-radius:24px;box-shadow:0 16px 45px #875a681c;overflow:hidden;display:flex;flex-direction:column}
+.art{height:29vh;min-height:165px;max-height:250px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#f5dfe1,#f8e9dc 55%,#e9d8e5);overflow:hidden}
+.art:before,.art:after{content:"";position:absolute;border-radius:50%;background:#fff8f2;opacity:.65}
+.art:before{width:190px;height:190px;left:-70px;top:-90px}.art:after{width:170px;height:170px;right:-60px;bottom:-90px;background:#e8bdc8}
+.symbol{z-index:1;font-size:56px;filter:drop-shadow(0 6px 10px #a76b7730)}
+.caption{position:absolute;z-index:2;bottom:14px;font-size:11px;letter-spacing:.15em;color:#896a74}
+.content{padding:27px clamp(20px,6vw,40px) 22px;text-align:center;flex:1;animation:fade .45s ease}
+.eyebrow{font-size:12px;letter-spacing:.15em;color:#b17d89;margin:0 0 12px}
+h1{font-size:clamp(23px,6vw,30px);font-weight:500;line-height:1.55;margin:0 0 18px}
+.copy{font-size:clamp(14px,3.7vw,16px);line-height:2.05;white-space:pre-line;margin:0;color:#6b535c}
+.vn{font:italic 14px/1.9 Georgia,serif;color:#a65e72;margin:17px 0}
+.actions{display:flex;gap:12px;justify-content:center;padding:8px 20px 25px}
+button{font:inherit;border:1px solid #e8cbd1;background:#fff7f5;color:#855866;border-radius:30px;padding:12px 24px;min-width:112px;cursor:pointer}
+button.primary{background:#b97888;color:white;border-color:#b97888}
+button:disabled{opacity:.3;cursor:default}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(min-width:650px){.app{padding-top:28px}.card{min-height:690px}.art{height:235px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+<div class="top"><span>小さな物語</span><div class="progress" id="progress"></div><span id="count">01 / 07</span></div>
+<section class="card" aria-live="polite">
+<div class="art"><div class="symbol" id="symbol">🌸</div><div class="caption" id="caption">りなへ</div></div>
+<div class="content" id="content">
+<p class="eyebrow" id="eyebrow">はじまり</p><h1 id="heading">りなへ ♡</h1>
+<p class="copy" id="copy">このカードには、\nもう一つ秘密があります。♡</p>
+</div>
+<div class="actions"><button id="back" disabled>もどる</button><button id="next" class="primary">開いてみて ♡</button></div>
+</section>
+</main>
+<script>
+/* 文章を変更するときは、下の chapters の title / text / vn を編集してください。 */
+const chapters = [
+{eyebrow:"はじまり",title:"りなへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",symbol:"🌸",caption:"小さな秘密",button:"開いてみて ♡"},
+{eyebrow:"11月7日 ♡",title:"11月7日 ♡",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",symbol:"📱",caption:"LINEを交換した日"},
+{eyebrow:"11月14日 ♡",title:"11月14日 ♡",text:"この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"あの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",symbol:"🍜",caption:"あの日のラーメン屋"},
+{eyebrow:"11月29日 ♡",title:"11月29日 ♡",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡",symbol:"⛩️",caption:"私の誕生日 · 特別な一日"},
+{eyebrow:"リナへ ♡",title:"リナへ ♡",text:"今まで毎日話して、\nあなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。\nあなたの瞳。\nそして、あなたと話している時間。\nいつの間にか、\nその一つひとつが私にとって\n大切なものになっていました。♡\nもしよかったら、\nこれから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",symbol:"🌙",caption:"少しずつ、あなたのことを"},
+{eyebrow:"小さな手紙",title:"リナへ ♡",text:"私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、\nこうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、\nたくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",symbol:"✉️",caption:"小さな手紙"},
+{eyebrow:"最後に、ひとつだけ ♡",title:"最後に、ひとつだけ ♡",text:"リナ、\nあなたと出会えて、\nこうして毎日話せるようになって、\n本当に嬉しいです。\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、\n一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が\n私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",symbol:"☕",caption:"ディワカル ♡ リナ"}
+];
+let index=0;const el=id=>document.getElementById(id);
+function render(){
+ const c=chapters[index];
+ el("eyebrow").textContent=c.eyebrow;el("heading").textContent=c.title;
+ el("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
+ el("symbol").textContent=c.symbol;el("caption").textContent=c.caption;
+ el("count").textContent=String(index+1).padStart(2,"0")+" / "+String(chapters.length).padStart(2,"0");
+ el("progress").innerHTML=chapters.map((_,i)=>`<i class="${i<=index?"on":""}"></i>`).join("");
+ const old=el("vn");if(old)old.remove();
+ if(c.vn){const p=document.createElement("p");p.id="vn";p.className="vn";p.textContent=c.vn;el("content").appendChild(p);}
+ el("back").disabled=index===0;
+ el("next").textContent=index===chapters.length-1?"最初から ♡":(c.button||"つづきを見る ♡");
+ el("content").style.animation="none";void el("content").offsetWidth;el("content").style.animation="";
+}
+el("next").onclick=()=>{index=index===chapters.length-1?0:index+1;render()};
+el("back").onclick=()=>{if(index>0){index--;render()}};
+render();
+</script>
+</body></html>
