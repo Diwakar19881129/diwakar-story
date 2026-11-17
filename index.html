@@ -30,11 +30,124 @@ button:disabled{opacity:.3;cursor:default}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(min-width:650px){.app{padding-top:28px}.card{min-height:690px}.art{height:235px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.letter-page .card{
+  background:#f9eee9;
+}
+.letter-page .content{
+  position:relative;
+  padding:34px clamp(18px,5vw,34px) 30px;
+  background:
+    linear-gradient(rgba(255,250,247,.76),rgba(255,250,247,.88)),
+    url("images/07-letter.jpg") center/cover no-repeat;
+}
+.letter-page .content:before{
+  content:"";
+  position:absolute;
+  inset:14px 10px;
+  border:1px solid rgba(185,111,128,.22);
+  border-radius:22px;
+  pointer-events:none;
+}
+.letter-page .content > *{
+  position:relative;
+  z-index:1;
+}
+.letter-page .copy{
+  background:rgba(255,250,247,.74);
+  border-radius:20px;
+  padding:22px 16px;
+  box-shadow:0 10px 28px rgba(102,70,76,.08);
+}
+.letter-page .vn{
+  background:rgba(255,250,247,.78);
+  border-radius:16px;
+  padding:9px 12px;
+}
+@media(max-width:420px){
+  .letter-page .copy{font-size:14px;line-height:1.9;padding:18px 13px}
+}
+
+/* --- Final romantic polish --- */
+.letter-overlay{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;
+  overflow:hidden;background:
+  radial-gradient(circle at 50% 35%,rgba(255,250,247,.75),transparent 38%),
+  linear-gradient(145deg,#f6dfe3,#f7eadf 48%,#e8dbe7);
+  transition:opacity .8s ease,visibility .8s ease;
+}
+.letter-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}
+.envelope-wrap{text-align:center;position:relative;z-index:2}
+.envelope{
+  width:min(72vw,300px);height:min(48vw,200px);position:relative;margin:0 auto 25px;
+  background:#fff8f4;border-radius:12px;box-shadow:0 20px 45px rgba(98,63,73,.18);
+  transform:rotate(-1deg);transition:transform .7s ease;
+}
+.envelope-flap{
+  position:absolute;inset:0;background:#f0cbd2;clip-path:polygon(0 0,100% 0,50% 62%);
+  border-radius:12px 12px 0 0;transform-origin:top center;transition:transform .9s ease;z-index:4;
+}
+.envelope-heart{position:absolute;z-index:5;left:50%;top:48%;transform:translate(-50%,-50%);
+  font-size:40px;color:#a95f75;text-shadow:0 4px 10px rgba(100,50,70,.12)}
+.envelope-paper{
+  position:absolute;left:8%;right:8%;bottom:8%;height:72%;background:#fffaf6;border-radius:8px;
+  padding:18px;box-sizing:border-box;color:#77515c;font-size:13px;z-index:2;
+  box-shadow:0 3px 8px rgba(80,50,60,.06)
+}
+.envelope-paper strong{display:block;font-size:22px;margin-top:10px;color:#633d49}
+.envelope-wrap.opening .envelope-flap{transform:rotateX(180deg)}
+.envelope-wrap.opening .envelope{transform:translateY(-18px) scale(1.02)}
+.overlay-title{font-size:15px;letter-spacing:.15em;color:#7c5660;margin-bottom:5px}
+.overlay-subtitle{font-family:serif;font-size:28px;color:#5e3d49;margin-bottom:18px}
+.letter-overlay button{
+  border:0;border-radius:999px;padding:13px 26px;background:#fff8f4;color:#754a57;
+  font-size:14px;box-shadow:0 8px 22px rgba(80,50,60,.12);cursor:pointer
+}
+.petal{position:absolute;font-size:22px;opacity:.65;animation:petalFloat 6s ease-in-out infinite}
+.p1{left:14%;top:18%}.p2{right:16%;top:30%;animation-delay:1.5s}.p3{left:25%;bottom:16%;animation-delay:3s}
+@keyframes petalFloat{50%{transform:translate(20px,28px) rotate(25deg);opacity:.9}100%{transform:translate(-5px,55px) rotate(-15deg);opacity:.2}}
+.story-shell{transition:opacity .35s ease,transform .35s ease}
+.story-shell.chapter-change{opacity:.25;transform:translateY(8px)}
+.copy{
+  background:rgba(255,250,247,.76)!important;border:1px solid rgba(255,255,255,.65);
+  border-radius:20px;padding:18px 16px;box-shadow:0 10px 30px rgba(95,63,73,.07);
+  backdrop-filter:blur(4px)
+}
+.content{
+  background:linear-gradient(rgba(255,249,246,.88),rgba(255,249,246,.94)),
+    radial-gradient(circle at 20% 20%,#f3dce2 0,transparent 32%),
+    radial-gradient(circle at 80% 70%,#eadfec 0,transparent 35%)!important;
+}
+.letter-page .content{
+  background:linear-gradient(rgba(255,250,247,.72),rgba(255,250,247,.88)),
+    url("images/07-letter.jpg") center/cover no-repeat!important
+}
+.vn{background:rgba(255,250,247,.8)!important}
+.chapter-progress{display:flex;justify-content:center;gap:6px;margin:8px 0 2px}
+.chapter-progress span{width:6px;height:6px;border-radius:50%;background:#d8bdc5;transition:.25s}
+.chapter-progress span.active{width:18px;border-radius:8px;background:#a96c7e}
 </style>
 </head>
 <body>
+<div id="letterOverlay" class="letter-overlay">
+  <div class="petal p1">🌸</div><div class="petal p2">🌸</div><div class="petal p3">🌸</div>
+  <div class="envelope-wrap">
+    <div class="envelope">
+      <div class="envelope-flap"></div>
+      <div class="envelope-heart">♡</div>
+      <div class="envelope-paper">
+        <div>小さな手紙</div>
+        <strong>リナへ ♡</strong>
+      </div>
+    </div>
+    <div class="overlay-title">小さな手紙</div>
+    <div class="overlay-subtitle">リナへ ♡</div>
+    <button id="openLetter">開いてみて ♡</button>
+  </div>
+</div>
+
 <main class="app">
-<div class="top"><span>小さな物語</span><div class="progress" id="progress"></div><span id="count">01 / 07</span></div>
+<div class="top"><span>小さな物語</span><div class="chapter-progress" id="chapterProgress"></div><div class="progress" id="progress"></div><span id="count">01 / 07</span></div>
 <section class="card" aria-live="polite">
 <div class="art" id="art"><img id="artImage" alt="" /><div class="symbol" id="symbol">🌸</div><div class="caption" id="caption">りなへ</div></div>
 <div class="content" id="content">
@@ -52,12 +165,16 @@ const chapters = [
 {eyebrow:"11月14日 ♡",title:"11月14日 ♡",image:"images/03-ramen.jpg",text:"この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"あの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",symbol:"🍜",caption:"あの日のラーメン屋"},
 {eyebrow:"11月29日 ♡",title:"11月29日 ♡",image:"images/04-shrine.jpg",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡",symbol:"⛩️",caption:"私の誕生日 · 特別な一日"},
 {eyebrow:"リナへ ♡",title:"リナへ ♡",image:"images/05-walk.jpg",text:"今まで毎日話して、\nあなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。\nあなたの瞳。\nそして、あなたと話している時間。\nいつの間にか、\nその一つひとつが私にとって\n大切なものになっていました。♡\nもしよかったら、\nこれから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",symbol:"🌙",caption:"少しずつ、あなたのことを"},
-{eyebrow:"小さな手紙",title:"リナへ ♡",text:"私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、\nこうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、\nたくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",symbol:"✉️",caption:"小さな手紙"},
+{eyebrow:"小さな手紙",title:"リナへ ♡",image:"images/07-letter.jpg",special:"letter",text:"私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、\nこうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、\nたくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",symbol:"✉️",caption:"小さな手紙"},
 {eyebrow:"最後に、ひとつだけ ♡",title:"最後に、ひとつだけ ♡",image:"images/06-final.jpg",text:"リナ、\nあなたと出会えて、\nこうして毎日話せるようになって、\n本当に嬉しいです。\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、\n一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が\n私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",symbol:"☕",caption:"ディワカル ♡ リナ"}
 ];
 let index=0;const el=id=>document.getElementById(id);
 function render(){
  const c=chapters[index];
+ const cp=document.getElementById("chapterProgress");
+ if(cp){cp.innerHTML=chapters.slice(1).map((_,i)=>`<span class="${i===Math.max(0,index-1)?"active":""}"></span>`).join("");}
+ const shell=document.querySelector(".story-shell");
+ document.body.classList.toggle("letter-page", c.special==="letter");
  el("eyebrow").textContent=c.eyebrow;el("heading").textContent=c.title;
  el("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
  el("symbol").textContent=c.symbol;el("caption").textContent=c.caption;const art=el("art");const artImage=el("artImage");if(c.image){art.classList.add("has-image");artImage.src=c.image;artImage.alt=c.caption||"";}else{art.classList.remove("has-image");artImage.removeAttribute("src");artImage.alt="";}
@@ -72,5 +189,13 @@ function render(){
 el("next").onclick=()=>{index=index===chapters.length-1?0:index+1;render()};
 el("back").onclick=()=>{if(index>0){index--;render()}};
 render();
+
+const overlay=document.getElementById("letterOverlay");
+const openLetter=document.getElementById("openLetter");
+const envelopeWrap=document.querySelector(".envelope-wrap");
+openLetter.addEventListener("click",()=>{
+  envelopeWrap.classList.add("opening");
+  setTimeout(()=>overlay.classList.add("hide"),650);
+});
 </script>
 </body></html>
