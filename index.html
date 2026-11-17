@@ -13,7 +13,7 @@ body{margin:0;background:#f8e9e8;color:var(--ink);font-family:"Yu Mincho","Hirag
 .top{width:min(100%,560px);display:flex;justify-content:space-between;align-items:center;color:#9d7882;font-size:12px;letter-spacing:.08em;padding:4px 2px 14px}
 .progress{display:flex;gap:5px}.progress i{width:15px;height:3px;border-radius:9px;background:#e7cbd0}.progress i.on{background:var(--rose)}
 .card{width:min(100%,560px);min-height:min(760px,calc(100svh - 100px));background:var(--paper);border:1px solid #f0dfe0;border-radius:24px;box-shadow:0 16px 45px #875a681c;overflow:hidden;display:flex;flex-direction:column}
-.art{height:29vh;min-height:165px;max-height:250px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#f5dfe1,#f8e9dc 55%,#e9d8e5);overflow:hidden}
+.art{height:31vh;min-height:185px;max-height:270px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#f5dfe1,#f8e9dc 55%,#e9d8e5);overflow:hidden}.art img{width:100%;height:100%;object-fit:cover;display:none}.art.has-image img{display:block}.art.has-image .symbol{display:none}.art.has-image:before,.art.has-image:after{display:none}
 .art:before,.art:after{content:"";position:absolute;border-radius:50%;background:#fff8f2;opacity:.65}
 .art:before{width:190px;height:190px;left:-70px;top:-90px}.art:after{width:170px;height:170px;right:-60px;bottom:-90px;background:#e8bdc8}
 .symbol{z-index:1;font-size:56px;filter:drop-shadow(0 6px 10px #a76b7730)}
@@ -36,7 +36,7 @@ button:disabled{opacity:.3;cursor:default}
 <main class="app">
 <div class="top"><span>小さな物語</span><div class="progress" id="progress"></div><span id="count">01 / 07</span></div>
 <section class="card" aria-live="polite">
-<div class="art"><div class="symbol" id="symbol">🌸</div><div class="caption" id="caption">りなへ</div></div>
+<div class="art" id="art"><img id="artImage" alt="" /><div class="symbol" id="symbol">🌸</div><div class="caption" id="caption">りなへ</div></div>
 <div class="content" id="content">
 <p class="eyebrow" id="eyebrow">はじまり</p><h1 id="heading">りなへ ♡</h1>
 <p class="copy" id="copy">このカードには、\nもう一つ秘密があります。♡</p>
@@ -47,20 +47,20 @@ button:disabled{opacity:.3;cursor:default}
 <script>
 /* 文章を変更するときは、下の chapters の title / text / vn を編集してください。 */
 const chapters = [
-{eyebrow:"はじまり",title:"りなへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",symbol:"🌸",caption:"小さな秘密",button:"開いてみて ♡"},
-{eyebrow:"11月7日 ♡",title:"11月7日 ♡",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",symbol:"📱",caption:"LINEを交換した日"},
-{eyebrow:"11月14日 ♡",title:"11月14日 ♡",text:"この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"あの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",symbol:"🍜",caption:"あの日のラーメン屋"},
-{eyebrow:"11月29日 ♡",title:"11月29日 ♡",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡",symbol:"⛩️",caption:"私の誕生日 · 特別な一日"},
-{eyebrow:"リナへ ♡",title:"リナへ ♡",text:"今まで毎日話して、\nあなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。\nあなたの瞳。\nそして、あなたと話している時間。\nいつの間にか、\nその一つひとつが私にとって\n大切なものになっていました。♡\nもしよかったら、\nこれから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",symbol:"🌙",caption:"少しずつ、あなたのことを"},
+{eyebrow:"はじまり",title:"りなへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",symbol:"🌸",caption:"小さな秘密",image:"images/01-welcome.jpg",button:"開いてみて ♡"},
+{eyebrow:"11月7日 ♡",title:"11月7日 ♡",image:"images/02-line.jpg",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",symbol:"📱",caption:"LINEを交換した日"},
+{eyebrow:"11月14日 ♡",title:"11月14日 ♡",image:"images/03-ramen.jpg",text:"この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"あの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",symbol:"🍜",caption:"あの日のラーメン屋"},
+{eyebrow:"11月29日 ♡",title:"11月29日 ♡",image:"images/04-shrine.jpg",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡",symbol:"⛩️",caption:"私の誕生日 · 特別な一日"},
+{eyebrow:"リナへ ♡",title:"リナへ ♡",image:"images/05-walk.jpg",text:"今まで毎日話して、\nあなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。\nあなたの瞳。\nそして、あなたと話している時間。\nいつの間にか、\nその一つひとつが私にとって\n大切なものになっていました。♡\nもしよかったら、\nこれから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",symbol:"🌙",caption:"少しずつ、あなたのことを"},
 {eyebrow:"小さな手紙",title:"リナへ ♡",text:"私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、\nこうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、\nたくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",symbol:"✉️",caption:"小さな手紙"},
-{eyebrow:"最後に、ひとつだけ ♡",title:"最後に、ひとつだけ ♡",text:"リナ、\nあなたと出会えて、\nこうして毎日話せるようになって、\n本当に嬉しいです。\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、\n一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が\n私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",symbol:"☕",caption:"ディワカル ♡ リナ"}
+{eyebrow:"最後に、ひとつだけ ♡",title:"最後に、ひとつだけ ♡",image:"images/06-final.jpg",text:"リナ、\nあなたと出会えて、\nこうして毎日話せるようになって、\n本当に嬉しいです。\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、\n一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が\n私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",symbol:"☕",caption:"ディワカル ♡ リナ"}
 ];
 let index=0;const el=id=>document.getElementById(id);
 function render(){
  const c=chapters[index];
  el("eyebrow").textContent=c.eyebrow;el("heading").textContent=c.title;
  el("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
- el("symbol").textContent=c.symbol;el("caption").textContent=c.caption;
+ el("symbol").textContent=c.symbol;el("caption").textContent=c.caption;const art=el("art");const artImage=el("artImage");if(c.image){art.classList.add("has-image");artImage.src=c.image;artImage.alt=c.caption||"";}else{art.classList.remove("has-image");artImage.removeAttribute("src");artImage.alt="";}
  el("count").textContent=String(index+1).padStart(2,"0")+" / "+String(chapters.length).padStart(2,"0");
  el("progress").innerHTML=chapters.map((_,i)=>`<i class="${i<=index?"on":""}"></i>`).join("");
  const old=el("vn");if(old)old.remove();
