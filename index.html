@@ -2,143 +2,177 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f8e9e8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6e4e5">
 <title>りなへ ♡</title>
 <style>
-:root{--ink:#563f48;--rose:#b96f80;--paper:#fffaf7}
+:root{
+  --ink:#5c424c;--rose:#b76f80;--paper:#fffaf7;--line:#ead2d6;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#f8e9e8;color:var(--ink);font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif}
-.app{min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:18px 16px}
-.top{width:min(100%,560px);display:flex;justify-content:space-between;align-items:center;color:#9d7882;font-size:12px;letter-spacing:.08em;padding:4px 2px 14px}
-.progress{display:flex;gap:5px}.progress i{width:15px;height:3px;border-radius:9px;background:#e7cbd0}.progress i.on{background:var(--rose)}
-.card{width:min(100%,560px);min-height:min(760px,calc(100svh - 100px));background:var(--paper);border:1px solid #f0dfe0;border-radius:24px;box-shadow:0 16px 45px #875a681c;overflow:hidden;display:flex;flex-direction:column}
-.art{height:31vh;min-height:185px;max-height:270px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#f5dfe1,#f8e9dc 55%,#e9d8e5);overflow:hidden}.art img{width:100%;height:100%;object-fit:cover;display:none}.art.has-image img{display:block}.art.has-image .symbol{display:none}.art.has-image:before,.art.has-image:after{display:none}
-.art:before,.art:after{content:"";position:absolute;border-radius:50%;background:#fff8f2;opacity:.65}
-.art:before{width:190px;height:190px;left:-70px;top:-90px}.art:after{width:170px;height:170px;right:-60px;bottom:-90px;background:#e8bdc8}
-.symbol{z-index:1;font-size:56px;filter:drop-shadow(0 6px 10px #a76b7730)}
-.caption{position:absolute;z-index:2;bottom:14px;font-size:11px;letter-spacing:.15em;color:#896a74}
-.content{padding:27px clamp(20px,6vw,40px) 22px;text-align:center;flex:1;animation:fade .45s ease}
-.eyebrow{font-size:12px;letter-spacing:.15em;color:#b17d89;margin:0 0 12px}
-h1{font-size:clamp(23px,6vw,30px);font-weight:500;line-height:1.55;margin:0 0 18px}
-.copy{font-size:clamp(14px,3.7vw,16px);line-height:2.05;white-space:pre-line;margin:0;color:#6b535c}
-.vn{font:italic 14px/1.9 Georgia,serif;color:#a65e72;margin:17px 0}
-.actions{display:flex;gap:12px;justify-content:center;padding:8px 20px 25px}
-button{font:inherit;border:1px solid #e8cbd1;background:#fff7f5;color:#855866;border-radius:30px;padding:12px 24px;min-width:112px;cursor:pointer}
-button.primary{background:#b97888;color:white;border-color:#b97888}
-button:disabled{opacity:.3;cursor:default}
-@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media(min-width:650px){.app{padding-top:28px}.card{min-height:690px}.art{height:235px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}}
-
-.letter-page .card{
-  background:#f9eee9;
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+  background:#f6e4e5;color:var(--ink);
+  font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  overscroll-behavior:none;
 }
-.letter-page .content{
-  position:relative;
-  padding:34px clamp(18px,5vw,34px) 30px;
-  background:
-    linear-gradient(rgba(255,250,247,.76),rgba(255,250,247,.88)),
-    url("images/07-letter.jpg") center/cover no-repeat;
+button{font:inherit;-webkit-tap-highlight-color:transparent}
+.app{
+  width:100%;height:100svh;height:100dvh;
+  min-height:500px;display:flex;flex-direction:column;
+  align-items:center;overflow:hidden;
+  padding:max(8px,env(safe-area-inset-top)) 10px max(8px,env(safe-area-inset-bottom));
 }
-.letter-page .content:before{
-  content:"";
-  position:absolute;
-  inset:14px 10px;
-  border:1px solid rgba(185,111,128,.22);
-  border-radius:22px;
+.top{
+  width:min(100%,560px);height:28px;flex:0 0 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  color:#9b717c;font-size:10px;letter-spacing:.1em;padding:0 3px;
+}
+.progress{display:flex;gap:4px;align-items:center}
+.progress i{width:12px;height:3px;border-radius:5px;background:#e7cbd0}
+.progress i.on{background:var(--rose)}
+.card{
+  width:min(100%,560px);height:calc(100% - 28px);
+  min-height:0;background:var(--paper);
+  border:1px solid #efdfe1;border-radius:20px 20px 14px 14px;
+  box-shadow:0 10px 30px rgba(95,63,73,.12);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.art{
+  position:relative;flex:0 0 27svh;height:27svh;min-height:125px;max-height:250px;
+  overflow:hidden;background:linear-gradient(145deg,#f5dfe1,#f8e9dc 55%,#e9d8e5);
+}
+.art img{width:100%;height:100%;display:block;object-fit:cover}
+.art:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 65%,rgba(54,31,41,.14));
   pointer-events:none;
 }
-.letter-page .content > *{
-  position:relative;
-  z-index:1;
+.content{
+  flex:1;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:10px clamp(13px,4.5vw,30px) 5px;
+  animation:fade .35s ease;
+}
+.eyebrow{
+  flex:0 0 auto;margin:0 0 4px;color:#b17d89;
+  font-size:10px;letter-spacing:.12em;
+}
+h1{
+  flex:0 0 auto;margin:0 0 8px;font-weight:500;
+  font-size:clamp(20px,5.8vw,29px);line-height:1.2;
+}
+.copy{
+  flex:0 1 auto;max-width:520px;margin:0;
+  color:#67515a;font-size:clamp(12.4px,3.25vw,15px);
+  line-height:1.55;white-space:pre-line;
+}
+.vn{
+  flex:0 1 auto;max-width:520px;margin:7px 0 0;
+  color:#a35f72;font:italic clamp(11px,2.9vw,13px)/1.45 Georgia,serif;
+}
+.actions{
+  flex:0 0 auto;width:min(100%,560px);display:flex;gap:9px;
+  justify-content:center;padding:6px 12px max(8px,env(safe-area-inset-bottom));
+}
+.actions button{
+  min-width:100px;padding:9px 18px;border-radius:24px;
+  border:1px solid var(--line);background:#fff7f5;color:#805564;
+  font-size:12px;box-shadow:0 4px 12px rgba(100,60,75,.06);
+}
+.actions button.primary{background:#b97888;color:white;border-color:#b97888}
+.actions button:disabled{opacity:.28}
+.chapter-progress span{width:5px;height:5px;border-radius:50%;background:#dcc2c9}
+.chapter-progress span.active{width:14px;border-radius:5px;background:#a96b7c}
+
+.letter-page .content{
+  background:
+    linear-gradient(rgba(255,250,247,.58),rgba(255,250,247,.76)),
+    url("images/07-letter.jpg") center/cover no-repeat;
+  padding-left:12px;padding-right:12px;
 }
 .letter-page .copy{
-  background:rgba(255,250,247,.74);
-  border-radius:20px;
-  padding:22px 16px;
-  box-shadow:0 10px 28px rgba(102,70,76,.08);
+  width:min(100%,500px);
+  background:rgba(255,250,247,.72);
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:18px;padding:10px 13px;
+  box-shadow:0 7px 20px rgba(80,50,60,.07);
+  backdrop-filter:blur(2px);
 }
 .letter-page .vn{
-  background:rgba(255,250,247,.78);
-  border-radius:16px;
-  padding:9px 12px;
-}
-@media(max-width:420px){
-  .letter-page .copy{font-size:14px;line-height:1.9;padding:18px 13px}
+  background:rgba(255,250,247,.72);border-radius:12px;padding:5px 9px;
 }
 
-/* --- Final romantic polish --- */
 .letter-overlay{
-  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;
-  overflow:hidden;background:
-  radial-gradient(circle at 50% 35%,rgba(255,250,247,.75),transparent 38%),
-  linear-gradient(145deg,#f6dfe3,#f7eadf 48%,#e8dbe7);
-  transition:opacity .8s ease,visibility .8s ease;
+  position:fixed;inset:0;z-index:1000;
+  display:grid;place-items:center;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(255,250,247,.8),transparent 38%),
+    linear-gradient(145deg,#f6dfe3,#f7eadf 48%,#e8dbe7);
+  transition:opacity .65s ease,visibility .65s ease;
 }
 .letter-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}
 .envelope-wrap{text-align:center;position:relative;z-index:2}
 .envelope{
-  width:min(72vw,300px);height:min(48vw,200px);position:relative;margin:0 auto 25px;
-  background:#fff8f4;border-radius:12px;box-shadow:0 20px 45px rgba(98,63,73,.18);
-  transform:rotate(-1deg);transition:transform .7s ease;
+  width:min(68vw,285px);height:min(44vw,180px);position:relative;margin:0 auto 17px;
+  background:#fff8f4;border-radius:12px;
+  box-shadow:0 18px 38px rgba(98,63,73,.18);
+  transform:rotate(-1deg);transition:transform .6s ease;
 }
 .envelope-flap{
-  position:absolute;inset:0;background:#f0cbd2;clip-path:polygon(0 0,100% 0,50% 62%);
-  border-radius:12px 12px 0 0;transform-origin:top center;transition:transform .9s ease;z-index:4;
+  position:absolute;inset:0;background:#f0cbd2;
+  clip-path:polygon(0 0,100% 0,50% 62%);
+  border-radius:12px 12px 0 0;transform-origin:top center;
+  transition:transform .75s ease;z-index:4;
 }
-.envelope-heart{position:absolute;z-index:5;left:50%;top:48%;transform:translate(-50%,-50%);
-  font-size:40px;color:#a95f75;text-shadow:0 4px 10px rgba(100,50,70,.12)}
+.envelope-heart{position:absolute;z-index:5;left:50%;top:49%;
+  transform:translate(-50%,-50%);font-size:38px;color:#a95f75}
 .envelope-paper{
-  position:absolute;left:8%;right:8%;bottom:8%;height:72%;background:#fffaf6;border-radius:8px;
-  padding:18px;box-sizing:border-box;color:#77515c;font-size:13px;z-index:2;
-  box-shadow:0 3px 8px rgba(80,50,60,.06)
+  position:absolute;left:8%;right:8%;bottom:8%;height:72%;
+  background:#fffaf6;border-radius:8px;padding:13px;
+  color:#77515c;font-size:11px;z-index:2;
 }
-.envelope-paper strong{display:block;font-size:22px;margin-top:10px;color:#633d49}
+.envelope-paper strong{display:block;font-size:20px;margin-top:7px;color:#633d49}
 .envelope-wrap.opening .envelope-flap{transform:rotateX(180deg)}
-.envelope-wrap.opening .envelope{transform:translateY(-18px) scale(1.02)}
-.overlay-title{font-size:15px;letter-spacing:.15em;color:#7c5660;margin-bottom:5px}
-.overlay-subtitle{font-family:serif;font-size:28px;color:#5e3d49;margin-bottom:18px}
+.envelope-wrap.opening .envelope{transform:translateY(-12px) scale(1.02)}
+.overlay-title{font-size:13px;letter-spacing:.15em;color:#7c5660;margin-bottom:3px}
+.overlay-subtitle{font-size:25px;color:#5e3d49;margin-bottom:13px}
 .letter-overlay button{
-  border:0;border-radius:999px;padding:13px 26px;background:#fff8f4;color:#754a57;
-  font-size:14px;box-shadow:0 8px 22px rgba(80,50,60,.12);cursor:pointer
+  border:0;border-radius:999px;padding:11px 24px;
+  background:#fff8f4;color:#754a57;font-size:12px;
+  box-shadow:0 7px 18px rgba(80,50,60,.12)
 }
-.petal{position:absolute;font-size:22px;opacity:.65;animation:petalFloat 6s ease-in-out infinite}
-.p1{left:14%;top:18%}.p2{right:16%;top:30%;animation-delay:1.5s}.p3{left:25%;bottom:16%;animation-delay:3s}
-@keyframes petalFloat{50%{transform:translate(20px,28px) rotate(25deg);opacity:.9}100%{transform:translate(-5px,55px) rotate(-15deg);opacity:.2}}
-.story-shell{transition:opacity .35s ease,transform .35s ease}
-.story-shell.chapter-change{opacity:.25;transform:translateY(8px)}
-.copy{
-  background:rgba(255,250,247,.76)!important;border:1px solid rgba(255,255,255,.65);
-  border-radius:20px;padding:18px 16px;box-shadow:0 10px 30px rgba(95,63,73,.07);
-  backdrop-filter:blur(4px)
+.petal{position:absolute;font-size:18px;opacity:.65;animation:petalFloat 6s ease-in-out infinite}
+.p1{left:12%;top:18%}.p2{right:15%;top:29%;animation-delay:1.5s}.p3{left:24%;bottom:15%;animation-delay:3s}
+@keyframes petalFloat{50%{transform:translate(18px,24px) rotate(25deg);opacity:.9}100%{transform:translate(-4px,45px) rotate(-15deg);opacity:.2}}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+@media(max-height:700px){
+  .art{flex-basis:23svh;height:23svh;min-height:110px}
+  .content{padding-top:7px}
+  h1{font-size:20px;margin-bottom:5px}
+  .copy{font-size:12.1px;line-height:1.43}
+  .vn{font-size:10.5px;line-height:1.35;margin-top:5px}
+  .actions button{padding:8px 16px}
 }
-.content{
-  background:linear-gradient(rgba(255,249,246,.88),rgba(255,249,246,.94)),
-    radial-gradient(circle at 20% 20%,#f3dce2 0,transparent 32%),
-    radial-gradient(circle at 80% 70%,#eadfec 0,transparent 35%)!important;
+@media(min-width:700px){
+  .app{padding:18px}
+  .top{height:30px;flex-basis:30px}
+  .card{height:calc(100% - 30px)}
+  .art{flex-basis:240px;height:240px}
+  .copy{font-size:15px;line-height:1.65}
 }
-.letter-page .content{
-  background:linear-gradient(rgba(255,250,247,.72),rgba(255,250,247,.88)),
-    url("images/07-letter.jpg") center/cover no-repeat!important
-}
-.vn{background:rgba(255,250,247,.8)!important}
-.chapter-progress{display:flex;justify-content:center;gap:6px;margin:8px 0 2px}
-.chapter-progress span{width:6px;height:6px;border-radius:50%;background:#d8bdc5;transition:.25s}
-.chapter-progress span.active{width:18px;border-radius:8px;background:#a96c7e}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="letterOverlay" class="letter-overlay">
   <div class="petal p1">🌸</div><div class="petal p2">🌸</div><div class="petal p3">🌸</div>
-  <div class="envelope-wrap">
+  <div class="envelope-wrap" id="envelopeWrap">
     <div class="envelope">
       <div class="envelope-flap"></div>
       <div class="envelope-heart">♡</div>
-      <div class="envelope-paper">
-        <div>小さな手紙</div>
-        <strong>リナへ ♡</strong>
-      </div>
+      <div class="envelope-paper"><div>小さな手紙</div><strong>リナへ ♡</strong></div>
     </div>
     <div class="overlay-title">小さな手紙</div>
     <div class="overlay-subtitle">リナへ ♡</div>
@@ -146,56 +180,64 @@ button:disabled{opacity:.3;cursor:default}
   </div>
 </div>
 
-<main class="app">
-<div class="top"><span>小さな物語</span><div class="chapter-progress" id="chapterProgress"></div><div class="progress" id="progress"></div><span id="count">01 / 07</span></div>
-<section class="card" aria-live="polite">
-<div class="art" id="art"><img id="artImage" alt="" /><div class="symbol" id="symbol">🌸</div><div class="caption" id="caption">りなへ</div></div>
-<div class="content" id="content">
-<p class="eyebrow" id="eyebrow">はじまり</p><h1 id="heading">りなへ ♡</h1>
-<p class="copy" id="copy">このカードには、\nもう一つ秘密があります。♡</p>
+<div class="app">
+  <div class="top">
+    <div id="count">01 / 08</div>
+    <div class="progress" id="progress"></div>
+  </div>
+  <main class="card">
+    <div class="art" id="art"><img id="artImage" alt=""></div>
+        <section class="content" id="content">
+      <p class="eyebrow" id="eyebrow"></p>
+      <h1 id="heading"></h1>
+      <p class="copy" id="copy"></p>
+      <p class="vn" id="vn"></p>
+    </section>
+    <div class="actions">
+      <button id="back">戻る</button>
+      <button id="next" class="primary">つづきを見る ♡</button>
+    </div>
+  </main>
 </div>
-<div class="actions"><button id="back" disabled>もどる</button><button id="next" class="primary">開いてみて ♡</button></div>
-</section>
-</main>
+
 <script>
-/* 文章を変更するときは、下の chapters の title / text / vn を編集してください。 */
-const chapters = [
-{eyebrow:"はじまり",title:"りなへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",symbol:"🌸",caption:"小さな秘密",image:"images/01-welcome.jpg",button:"開いてみて ♡"},
-{eyebrow:"11月7日 ♡",title:"11月7日 ♡",image:"images/02-line.jpg",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",symbol:"📱",caption:"LINEを交換した日"},
-{eyebrow:"11月14日 ♡",title:"11月14日 ♡",image:"images/03-ramen.jpg",text:"この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"あの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",symbol:"🍜",caption:"あの日のラーメン屋"},
-{eyebrow:"11月29日 ♡",title:"11月29日 ♡",image:"images/04-shrine.jpg",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡",symbol:"⛩️",caption:"私の誕生日 · 特別な一日"},
-{eyebrow:"リナへ ♡",title:"リナへ ♡",image:"images/05-walk.jpg",text:"今まで毎日話して、\nあなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。\nあなたの瞳。\nそして、あなたと話している時間。\nいつの間にか、\nその一つひとつが私にとって\n大切なものになっていました。♡\nもしよかったら、\nこれから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",symbol:"🌙",caption:"少しずつ、あなたのことを"},
-{eyebrow:"小さな手紙",title:"リナへ ♡",image:"images/07-letter.jpg",special:"letter",text:"私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、\nこうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、\nたくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",symbol:"✉️",caption:"小さな手紙"},
-{eyebrow:"最後に、ひとつだけ ♡",title:"最後に、ひとつだけ ♡",image:"images/06-final.jpg",text:"リナ、\nあなたと出会えて、\nこうして毎日話せるようになって、\n本当に嬉しいです。\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、\n一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が\n私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",symbol:"☕",caption:"ディワカル ♡ リナ"}
+const chapters=[
+{eyebrow:"",title:"リナへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",image:"images/01-welcome.jpg",button:"開いてみて ♡"},
+{eyebrow:"",title:"11月7日 ♡",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそれから毎日、あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",image:"images/02-line.jpg"},
+{eyebrow:"",title:"11月14日 ♡",text:"あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていたのに、\n恥ずかしくて「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを、そっと見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",image:"images/03-ramen.jpg"},
+{eyebrow:"",title:"11月29日 ♡",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\n今日という日に、私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、今から楽しみにしています。\nきっと今日が、私たちの物語の新しいページになると思います。♡",image:"images/04-shrine.jpg"},
+{eyebrow:"",title:"少しずつ、もっと知りたい",text:"毎日話して、あなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。あなたの瞳。\nそして、あなたと話している時間。\nその一つひとつが、いつの間にか私にとって\n大切なものになっていました。♡\nもしよかったら、これから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",image:"images/05-walk.jpg"},
+{eyebrow:"小さな手紙",title:"リナへ ♡",text:"国も、育った場所も違う私たちが、\n日本で出会って、こうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。♡\nこれからも、たくさん話して、たくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",image:"images/07-letter.jpg",special:"letter"},
+{eyebrow:"最後に、ひとつだけ ♡",title:"これからの物語",text:"リナ、あなたと出会えて、本当に嬉しいです。♡\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",image:"images/06-final.jpg"}
 ];
-let index=0;const el=id=>document.getElementById(id);
+
+let index=0;
+const $=id=>document.getElementById(id);
+
 function render(){
- const c=chapters[index];
- const cp=document.getElementById("chapterProgress");
- if(cp){cp.innerHTML=chapters.slice(1).map((_,i)=>`<span class="${i===Math.max(0,index-1)?"active":""}"></span>`).join("");}
- const shell=document.querySelector(".story-shell");
- document.body.classList.toggle("letter-page", c.special==="letter");
- el("eyebrow").textContent=c.eyebrow;el("heading").textContent=c.title;
- el("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
- el("symbol").textContent=c.symbol;el("caption").textContent=c.caption;const art=el("art");const artImage=el("artImage");if(c.image){art.classList.add("has-image");artImage.src=c.image;artImage.alt=c.caption||"";}else{art.classList.remove("has-image");artImage.removeAttribute("src");artImage.alt="";}
- el("count").textContent=String(index+1).padStart(2,"0")+" / "+String(chapters.length).padStart(2,"0");
- el("progress").innerHTML=chapters.map((_,i)=>`<i class="${i<=index?"on":""}"></i>`).join("");
- const old=el("vn");if(old)old.remove();
- if(c.vn){const p=document.createElement("p");p.id="vn";p.className="vn";p.textContent=c.vn;el("content").appendChild(p);}
- el("back").disabled=index===0;
- el("next").textContent=index===chapters.length-1?"最初から ♡":(c.button||"つづきを見る ♡");
- el("content").style.animation="none";void el("content").offsetWidth;el("content").style.animation="";
+  const c=chapters[index];
+  document.body.classList.toggle("letter-page",!!c.special);
+  $("count").textContent=String(index+1).padStart(2,"0")+" / "+String(chapters.length).padStart(2,"0");
+  $("progress").innerHTML=chapters.map((_,i)=>`<i class="${i<=index?"on":""}"></i>`).join("");
+  $("eyebrow").textContent=c.eyebrow;
+  $("heading").textContent=c.title;
+  $("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
+  $("vn").textContent=c.vn||"";
+  $("vn").style.display=c.vn?"block":"none";
+  $("artImage").src=c.image;
+  $("artImage").alt=c.caption||"";
+  $("back").disabled=index===0;
+  $("next").textContent=index===chapters.length-1?"最初から ♡":(c.button||"次へ ♡");
+  $("content").style.animation="none";void $("content").offsetWidth;$("content").style.animation="";
 }
-el("next").onclick=()=>{index=index===chapters.length-1?0:index+1;render()};
-el("back").onclick=()=>{if(index>0){index--;render()}};
+$("next").onclick=()=>{index=index===chapters.length-1?0:index+1;render()};
+$("back").onclick=()=>{if(index>0){index--;render()}};
 render();
 
-const overlay=document.getElementById("letterOverlay");
-const openLetter=document.getElementById("openLetter");
-const envelopeWrap=document.querySelector(".envelope-wrap");
-openLetter.addEventListener("click",()=>{
-  envelopeWrap.classList.add("opening");
-  setTimeout(()=>overlay.classList.add("hide"),650);
-});
+$("openLetter").onclick=()=>{
+  $("envelopeWrap").classList.add("opening");
+  setTimeout(()=>$("letterOverlay").classList.add("hide"),650);
+};
 </script>
-</body></html>
+</body>
+</html>
