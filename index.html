@@ -92,6 +92,8 @@ h1{
 }
 .actions button.primary{background:#b97888;color:white;border-color:#b97888}
 .actions button:disabled{opacity:.28}
+.language-change{display:none;margin:10px auto 0;border:1px solid var(--line);border-radius:999px;background:rgba(255,250,247,.82);color:#8a5968;padding:7px 15px;font-size:11px;box-shadow:0 4px 12px rgba(100,60,75,.05)}
+.language-change.show{display:block}
 .chapter-progress span{width:5px;height:5px;border-radius:50%;background:#dcc2c9}
 .chapter-progress span.active{width:14px;border-radius:5px;background:#a96b7c}
 
@@ -173,82 +175,122 @@ h1{
   .copy{font-size:15px;line-height:1.65}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.language-overlay{position:fixed;inset:0;z-index:2000;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 20%,rgba(255,250,247,.95),transparent 38%),linear-gradient(145deg,#f6dfe3,#f7eadf 48%,#e8dbe7);transition:opacity .55s ease,visibility .55s ease;padding:20px}.language-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}.lang-card{width:min(92vw,390px);text-align:center;background:rgba(255,250,247,.86);border:1px solid rgba(255,255,255,.85);border-radius:24px;padding:34px 24px 26px;box-shadow:0 18px 45px rgba(95,63,73,.14);backdrop-filter:blur(8px)}.lang-small{color:#b17d89;font-size:11px;letter-spacing:.15em;margin-bottom:8px}.lang-title{font-size:34px;color:#5c424c;margin-bottom:24px}.lang-question{font-size:14px;line-height:1.7;color:#67515a;margin-bottom:16px}.lang-card select{width:100%;appearance:auto;border:1px solid #e7cbd0;border-radius:14px;background:#fffaf7;color:#6c4b56;padding:13px 14px;font-size:14px;margin-bottom:12px}.lang-card button{width:100%;border:0;border-radius:999px;background:#b97888;color:#fff;padding:12px 18px;font-size:13px;box-shadow:0 7px 18px rgba(80,50,60,.12)}.lang-note{font-size:10px;color:#a47b86;margin-top:12px}.lang-petal{position:absolute;left:15%;top:18%;font-size:22px;opacity:.65;animation:petalFloat 6s ease-in-out infinite}.lang-petal.p2{left:auto;right:14%;top:65%;animation-delay:1.4s}.letter-overlay.hidden{display:none}.letter-overlay{opacity:1}.letter-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}
 </style>
 </head>
 <body>
-<div id="letterOverlay" class="letter-overlay">
+<div id="languageOverlay" class="language-overlay">
+  <div class="lang-petal">🌸</div><div class="lang-petal p2">🌸</div>
+  <div class="lang-card">
+    <div class="lang-small">小さな物語</div>
+    <div class="lang-title" id="langTitle">リナへ ♡</div>
+    <div class="lang-question" id="langQuestion">この物語を、どの言葉で読みますか？♡</div>
+    <select id="languageSelect" aria-label="Language">
+      <option value="ja">日本語</option>
+      <option value="vi">Tiếng Việt</option>
+      <option value="en">English</option>
+    </select>
+    <button id="startStory">この言葉で読む ♡</button>
+    <div class="lang-note" id="langNote">あとからいつでも変更できます。</div>
+  </div>
+</div>
+
+<div id="letterOverlay" class="letter-overlay hidden">
   <div class="petal p1">🌸</div><div class="petal p2">🌸</div><div class="petal p3">🌸</div>
   <div class="envelope-wrap" id="envelopeWrap">
     <div class="envelope">
-      <div class="envelope-flap"></div>
-      <div class="envelope-heart">♡</div>
-      <div class="envelope-paper"><div>小さな手紙</div><strong>リナへ ♡</strong></div>
+      <div class="envelope-flap"></div><div class="envelope-heart">♡</div>
+      <div class="envelope-paper"><div id="envSmall">小さな手紙</div><strong id="envTitle">リナへ ♡</strong></div>
     </div>
-    <div class="overlay-title">小さな手紙</div>
-    <div class="overlay-subtitle">リナへ ♡</div>
+    <div class="overlay-title" id="envCaption">小さな手紙</div>
+    <div class="overlay-subtitle" id="envRecipient">リナへ ♡</div>
     <button id="openLetter">開いてみて ♡</button>
   </div>
 </div>
 
 <div class="app">
-  <div class="top">
-    <div id="count">01 / 08</div>
-    <div class="progress" id="progress"></div>
-  </div>
+  <div class="top"><div id="count">01 / 07</div><div class="progress" id="progress"></div></div>
   <main class="card">
-    <div class="art" id="art"><img id="artImage" alt=""></div>
-        <section class="content" id="content">
-      <p class="eyebrow" id="eyebrow"></p>
-      <h1 id="heading"></h1>
-      <p class="copy" id="copy"></p>
-      <p class="vn" id="vn"></p>
+    <div class="art"><img id="artImage" alt=""><div class="caption" id="caption"></div></div>
+    <div class="chapter-progress" id="chapterProgress"></div>
+    <section class="content" id="content">
+      <p class="eyebrow" id="eyebrow"></p><h1 id="heading"></h1>
+      <p class="copy" id="copy"></p><p class="vn" id="accent"></p>
+      <button id="languageChange" class="language-change"></button>
     </section>
-    <div class="actions">
-      <button id="back">戻る</button>
-      <button id="next" class="primary">つづきを見る ♡</button>
-    </div>
+    <div class="actions"><button id="back"></button><button id="next" class="primary"></button></div>
   </main>
 </div>
 
 <script>
-const chapters=[
-{eyebrow:"",title:"リナへ ♡",text:"このカードには、\nもう一つ秘密があります。♡",image:"images/01-welcome.jpg",button:"開いてみて ♡"},
-{eyebrow:"",title:"11月7日 ♡",text:"この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそれから毎日、あなたと話せることが楽しみになりました。",vn:"Mỗi ngày được nói chuyện với bạn, mình thật sự rất vui. ♡",image:"images/02-line.jpg"},
-{eyebrow:"",title:"11月14日 ♡",text:"あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていたのに、\n恥ずかしくて「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを、そっと見ていました。",vn:"Đôi mắt của bạn ngày hôm đó, đến bây giờ mình vẫn nhớ rõ. ♡",after:"ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。",image:"images/03-ramen.jpg"},
-{eyebrow:"",title:"11月29日 ♡",text:"今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\n今日という日に、私たちの最初の思い出を作れたら嬉しいです。",vn:"Mình rất mong chờ ngày hôm nay. ♡",after:"あなたとゆっくり話せることを、今から楽しみにしています。\nきっと今日が、私たちの物語の新しいページになると思います。♡",image:"images/04-shrine.jpg"},
-{eyebrow:"",title:"少しずつ、もっと知りたい",text:"毎日話して、あなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。あなたの瞳。\nそして、あなたと話している時間。\nその一つひとつが、いつの間にか私にとって\n大切なものになっていました。♡\nもしよかったら、これから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡",vn:"Mình muốn hiểu bạn hơn, từng chút một. ♡",image:"images/05-walk.jpg"},
-{eyebrow:"小さな手紙",title:"リナへ ♡",text:"国も、育った場所も違う私たちが、\n日本で出会って、こうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。♡\nこれからも、たくさん話して、たくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。",image:"images/07-letter.jpg",special:"letter"},
-{eyebrow:"最後に、ひとつだけ ♡",title:"これからの物語",text:"リナ、あなたと出会えて、本当に嬉しいです。♡\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、一緒に素敵な思い出を作っていけたら嬉しいです。",vn:"Chúng ta gặp được nhau, mình thật sự rất vui. ♡",after:"そして、今日が私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡",image:"images/06-final.jpg"}
-];
-
-let index=0;
-const $=id=>document.getElementById(id);
-
-function render(){
-  const c=chapters[index];
-  document.body.classList.toggle("letter-page",!!c.special);
-  $("count").textContent=String(index+1).padStart(2,"0")+" / "+String(chapters.length).padStart(2,"0");
-  $("progress").innerHTML=chapters.map((_,i)=>`<i class="${i<=index?"on":""}"></i>`).join("");
-  $("eyebrow").textContent=c.eyebrow;
-  $("heading").textContent=c.title;
-  $("copy").textContent=c.text+(c.after?"\n\n"+c.after:"");
-  $("vn").textContent=c.vn||"";
-  $("vn").style.display=c.vn?"block":"none";
-  $("artImage").src=c.image;
-  $("artImage").alt=c.caption||"";
-  $("art").style.setProperty("--art-bg", `url("${c.image}")`);
-  $("back").disabled=index===0;
-  $("next").textContent=index===chapters.length-1?"最初から ♡":(c.button||"次へ ♡");
-  $("content").style.animation="none";void $("content").offsetWidth;$("content").style.animation="";
-}
-$("next").onclick=()=>{index=index===chapters.length-1?0:index+1;render()};
-$("back").onclick=()=>{if(index>0){index--;render()}};
-render();
-
-$("openLetter").onclick=()=>{
-  $("envelopeWrap").classList.add("opening");
-  setTimeout(()=>$("letterOverlay").classList.add("hide"),650);
+const T={
+ ja:{
+  question:'この物語を、どの言葉で読みますか？♡', title:'リナへ ♡', start:'この言葉で読む ♡', note:'あとからいつでも変更できます。', change:'言語を変更する ♡', back:'戻る', next:'次へ ♡', restart:'最初から ♡', open:'開いてみて ♡', small:'小さな手紙', recipient:'リナへ ♡',
+  c:[
+   {title:'リナへ ♡',text:'このカードには、\nもう一つ秘密があります。♡',image:'images/01-welcome.jpg',caption:'小さな秘密',button:'開いてみて ♡'},
+   {title:'11月7日 ♡',text:'この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。',image:'images/02-line.jpg',caption:'LINEを交換した日'},
+   {title:'11月14日 ♡',text:'この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。\n\nあの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。',image:'images/03-ramen.jpg',caption:'あの日のラーメン屋'},
+   {title:'11月29日 ♡',text:'今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。\n\nあなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡',image:'images/04-shrine.jpg',caption:'私の誕生日 · 特別な一日'},
+   {title:'少しずつ、もっと知りたい',text:'毎日話して、あなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。あなたの瞳。\nそして、あなたと話している時間。\nその一つひとつが、いつの間にか私にとって\n大切なものになっていました。♡\nもしよかったら、これから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡',image:'images/05-walk.jpg',caption:'少しずつ、あなたのことを'},
+   {title:'リナへ ♡',text:'私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、こうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、たくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。',image:'images/07-letter.jpg',caption:'小さな手紙'},
+   {title:'これからの物語',eyebrow:'最後に、ひとつだけ ♡',text:'リナ、あなたと出会えて、本当に嬉しいです。♡\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、一緒に素敵な思い出を作っていけたら嬉しいです。\n\nそして、今日が私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡',image:'images/06-final.jpg',caption:'ディワカル ♡ リナ'}
+  ]},
+ en:{
+  question:'Which language would you like to read this little story in? ♡', title:'To Rina ♡', start:'Read in this language ♡', note:'You can change it anytime later.', change:'Change language ♡', back:'Back', next:'Next ♡', restart:'Start again ♡', open:'Open it ♡', small:'A Little Letter', recipient:'To Rina ♡',
+  c:[
+   {title:'To Rina ♡',text:'There is one more little secret\ninside this card. ♡',image:'images/01-welcome.jpg',caption:'A little secret',button:'Open it ♡'},
+   {title:'November 7 ♡',text:'On this day, we exchanged our LINE IDs.\nIt may have seemed like such a small thing,\nbut it made me really happy. ♡\nFrom the next day on,\nI started looking forward to talking with you every day.',image:'images/02-line.jpg',caption:'The day we exchanged LINE'},
+   {title:'November 14 ♡',text:'On this day, you came to the ramen shop where I work.\nWe both knew the other person was there.\nBut we were too shy to even say “hello.” ♡\nI quietly watched you sitting at the corner table.\n\nIt was only a short moment,\nbut it became a moment I will never forget.',image:'images/03-ramen.jpg',caption:'That day at the ramen shop'},
+   {title:'November 29 ♡',text:'Today is my birthday.\nAnd it is the day we finally get to talk properly for the first time.\nI would love to enjoy lunch or dinner together\nand, if we can, visit a beautiful Japanese shrine. ♡\nI hope we can make our first special memory today.\n\nI’m really looking forward to talking with you slowly and comfortably.\nI feel that today might become a new page in our story. ♡',image:'images/04-shrine.jpg',caption:'My birthday · A special day'},
+   {title:'I Want to Know You, Little by Little',text:'After talking every day and getting to know you little by little,\nI started wanting to know you even more.\nYour smile. Your eyes.\nAnd the time I spend talking with you.\nSomehow, each of these has become something precious to me. ♡\nIf you are comfortable with it,\nI would be happy if we could slowly get to know each other better. ♡',image:'images/05-walk.jpg',caption:'Getting to know you, little by little'},
+   {title:'To Rina ♡',text:'The fact that we met,\nand that we can talk like this every day,\nis something truly wonderful to me. ♡\nWe come from different countries and grew up in different places,\nyet we met in Japan and are gradually getting to know each other.\nIt feels mysterious and wonderful somehow.\nI hope we can keep talking, keep laughing,\nand create many beautiful memories together.',image:'images/07-letter.jpg',caption:'A little letter'},
+   {title:'Our Story From Here',eyebrow:'Just one last thing ♡',text:'Rina, I’m truly happy that I met you. ♡\nWe are still only at the beginning,\nbut I would be happy if we could slowly create beautiful memories together.\n\nAnd I hope today becomes a day we will never forget.\nI’m excited to see what kind of story we will write from here. ♡\n\nDiwakar ♡ Rina\nLet’s write the next chapter. ♡',image:'images/06-final.jpg',caption:'Diwakar ♡ Rina'}
+  ]},
+ vi:{
+  question:'Bạn muốn đọc câu chuyện nhỏ này bằng ngôn ngữ nào? ♡', title:'Gửi Rina ♡', start:'Đọc bằng ngôn ngữ này ♡', note:'Bạn có thể đổi ngôn ngữ bất cứ lúc nào.', change:'Đổi ngôn ngữ ♡', back:'Quay lại', next:'Tiếp theo ♡', restart:'Bắt đầu lại ♡', open:'Mở ra nhé ♡', small:'Một lá thư nhỏ', recipient:'Gửi Rina ♡',
+  c:[
+   {title:'Gửi Rina ♡',text:'Trong tấm thiệp này\nvẫn còn một bí mật nhỏ nữa. ♡',image:'images/01-welcome.jpg',caption:'Một bí mật nhỏ',button:'Mở ra nhé ♡'},
+   {title:'Ngày 7 tháng 11 ♡',text:'Ngày hôm đó, chúng ta đã trao đổi LINE với nhau.\nCó thể đó chỉ là một điều rất nhỏ,\nnhưng với mình, mình thật sự rất vui. ♡\nTừ ngày hôm sau,\nmình bắt đầu mong chờ được nói chuyện với bạn mỗi ngày.',image:'images/02-line.jpg',caption:'Ngày chúng ta trao đổi LINE'},
+   {title:'Ngày 14 tháng 11 ♡',text:'Ngày hôm đó, bạn đã đến quán ramen nơi mình làm việc.\nCả hai chúng ta đều biết người kia cũng đang ở đó.\nNhưng vì ngại ngùng, đến cả “xin chào” cũng không nói được. ♡\nMình chỉ lặng lẽ nhìn bạn ngồi ở chiếc bàn trong góc.\n\nKhoảnh khắc ấy chỉ kéo dài một chút,\nnhưng đã trở thành một khoảnh khắc mình không thể quên.',image:'images/03-ramen.jpg',caption:'Ngày hôm đó ở quán ramen'},
+   {title:'Ngày 29 tháng 11 ♡',text:'Hôm nay là sinh nhật của mình.\nVà cũng là ngày chúng ta lần đầu tiên có thể thong thả trò chuyện với nhau.\nMình rất vui nếu chúng ta có thể cùng ăn trưa hoặc ăn tối,\nvà nếu có thể, cùng đến một ngôi đền hoặc chùa Nhật Bản thật đẹp. ♡\nMình hy vọng hôm nay chúng ta sẽ tạo nên kỷ niệm đầu tiên thật đặc biệt.\n\nMình thật sự mong chờ được nói chuyện với bạn thật thoải mái.\nMình cảm thấy hôm nay có thể sẽ trở thành một trang mới trong câu chuyện của chúng ta. ♡',image:'images/04-shrine.jpg',caption:'Sinh nhật của mình · Một ngày đặc biệt'},
+   {title:'Muốn hiểu bạn hơn, từng chút một',text:'Sau khi nói chuyện mỗi ngày và dần hiểu thêm về bạn,\nmình bắt đầu muốn biết về bạn nhiều hơn nữa.\nNụ cười của bạn. Đôi mắt của bạn.\nVà khoảng thời gian được trò chuyện cùng bạn.\nKhông biết từ lúc nào, từng điều nhỏ bé ấy\nđã trở nên rất quý giá với mình. ♡\nNếu bạn cảm thấy thoải mái,\nmình rất vui nếu từ từ chúng ta có thể hiểu nhau hơn. ♡',image:'images/05-walk.jpg',caption:'Từng chút một, hiểu về bạn hơn'},
+   {title:'Gửi Rina ♡',text:'Việc chúng ta gặp được nhau,\nvà từ đó có thể nói chuyện với nhau mỗi ngày như thế này,\nlà một điều thật sự rất tuyệt vời đối với mình. ♡\nChúng ta đến từ những đất nước khác nhau, lớn lên ở những nơi khác nhau,\nnhưng lại gặp nhau ở Nhật Bản\nvà đang từng chút một tìm hiểu về nhau.\nThật kỳ diệu và thật đẹp.\nMình hy vọng chúng ta sẽ tiếp tục trò chuyện, tiếp tục cười,\nvà cùng nhau tạo nên thật nhiều kỷ niệm đẹp.',image:'images/07-letter.jpg',caption:'Một lá thư nhỏ'},
+   {title:'Câu chuyện từ đây',eyebrow:'Cuối cùng, chỉ một điều thôi ♡',text:'Rina, mình thật sự rất vui vì đã gặp được bạn. ♡\nChúng ta mới chỉ bắt đầu thôi,\nnhưng mình rất vui nếu từ từ chúng ta có thể cùng nhau tạo nên những kỷ niệm thật đẹp.\n\nMình mong hôm nay sẽ trở thành một ngày mà cả hai chúng ta không thể quên.\nMình rất háo hức muốn biết câu chuyện của chúng ta từ đây sẽ trở thành như thế nào. ♡\n\nDiwakar ♡ Rina\nHãy cùng viết chương tiếp theo nhé. ♡',image:'images/06-final.jpg',caption:'Diwakar ♡ Rina'}
+  ]}
 };
+let lang='ja', index=0;
+const $=id=>document.getElementById(id);
+function applyLanguage(){
+ const t=T[lang];
+ document.documentElement.lang=lang;
+ $('langQuestion').textContent=t.question;$('langTitle').textContent=t.title;$('startStory').textContent=t.start;$('langNote').textContent=t.note;
+ $('back').textContent=t.back;$('next').textContent=t.next;$('openLetter').textContent=t.open;$('languageChange').textContent=t.change;
+ $('envSmall').textContent=t.small;$('envTitle').textContent=t.recipient;$('envCaption').textContent=t.small;$('envRecipient').textContent=t.recipient;
+ render();
+}
+function render(){
+ const t=T[lang],c=t.c[index];
+ document.title=t.recipient;
+ $('count').textContent=String(index+1).padStart(2,'0')+' / '+String(t.c.length).padStart(2,'0');
+ $('progress').innerHTML=t.c.map((_,i)=>`<i class="${i<=index?'on':''}"></i>`).join('');
+ $('chapterProgress').innerHTML=t.c.slice(1).map((_,i)=>`<span class="${i===Math.max(0,index-1)?'active':''}"></span>`).join('');
+ $('eyebrow').textContent=c.eyebrow||'';$('eyebrow').style.display=c.eyebrow?'block':'none';
+ $('heading').textContent=c.title;$('copy').textContent=c.text;
+ $('accent').textContent=c.accent||'';$('accent').style.display=c.accent?'block':'none';
+ $('languageChange').classList.toggle('show',index===t.c.length-1);
+ $('artImage').src=c.image;$('artImage').alt=c.caption||'';$('caption').textContent=c.caption||'';
+ $('back').disabled=index===0;$('next').textContent=index===t.c.length-1?t.restart:(c.button||t.next);
+ document.querySelector('.art').style.setProperty('--art-bg',`url("${c.image}")`);
+ document.querySelector('.content').style.animation='none';void document.querySelector('.content').offsetWidth;document.querySelector('.content').style.animation='';
+}
+$('languageSelect').onchange=e=>{lang=e.target.value;applyLanguage()};
+$('languageChange').onclick=()=>{ $('languageOverlay').classList.remove('hide'); $('languageSelect').value=lang; };
+$('startStory').onclick=()=>{$('languageOverlay').classList.add('hide');$('letterOverlay').classList.remove('hidden');applyLanguage()};
+$('openLetter').onclick=()=>{$('envelopeWrap').classList.add('opening');setTimeout(()=>$('letterOverlay').classList.add('hide'),650)};
+$('next').onclick=()=>{const t=T[lang];index=index===t.c.length-1?0:index+1;render()};
+$('back').onclick=()=>{if(index>0){index--;render()}};
+applyLanguage();
 </script>
 </body>
 </html>
