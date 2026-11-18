@@ -1,7 +1,4 @@
-りなへ ♡ テスト用ウェブサイト
+Rina Story — final multilingual version
 
-index.html をブラウザで開くとテストできます。
-文章は index.html 内の chapters 配列で編集できます。
-画像部分は仮のイラスト記号です。後から各章ごとの画像に差し替えます。
-このサイトは静的で閲覧専用です。ログイン、投稿フォーム、アップロード機能、解析機能はありません。
-ベトナム語の文章は公開前にネイティブ話者による確認をおすすめします。
+Languages: Japanese / Vietnamese / English
+7 chapters, no-scroll mobile layout, language switching, opening envelope.

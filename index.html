@@ -94,6 +94,17 @@ h1{
 .actions button:disabled{opacity:.28}
 .language-change{display:none;margin:10px auto 0;border:1px solid var(--line);border-radius:999px;background:rgba(255,250,247,.82);color:#8a5968;padding:7px 15px;font-size:11px;box-shadow:0 4px 12px rgba(100,60,75,.05)}
 .language-change.show{display:block}
+.final-page .language-change{margin:5px auto 0;padding:6px 13px;font-size:10px}
+.final-page .copy{font-size:clamp(11px,3vw,14px);line-height:1.38}
+.content.final-page{padding-bottom:4px}
+.content.final-page .copy{font-size:clamp(11.2px,3vw,14px);line-height:1.42;max-width:520px}
+.content.final-page .language-change{margin-top:5px;flex:0 0 auto}
+@media(max-height:700px){
+  .content.final-page{padding-top:4px;padding-bottom:2px}
+  .content.final-page .copy{font-size:11.1px;line-height:1.32}
+  .content.final-page h1{font-size:19px;margin-bottom:3px}
+  .content.final-page .language-change{margin-top:3px;padding:6px 13px;font-size:10.5px}
+}
 .chapter-progress span{width:5px;height:5px;border-radius:50%;background:#dcc2c9}
 .chapter-progress span.active{width:14px;border-radius:5px;background:#a96b7c}
 
@@ -232,7 +243,7 @@ const T={
    {title:'11月7日 ♡',text:'この日、私たちはLINEを交換しました。\nたったそれだけのことだったけど、\n私にとっては、とても嬉しいことでした。♡\nそして次の日から、\n毎日あなたと話せることが楽しみになりました。',image:'images/02-line.jpg',caption:'LINEを交換した日'},
    {title:'11月14日 ♡',text:'この日、あなたが私の働いているラーメン屋に来てくれました。\nお互いに、そこにいることを知っていました。\nでも、恥ずかしくて、\n「こんにちは」さえ言えませんでした。♡\nあなたが隅の席に座っているのを見ていました。\n\nあの日は、ほんの少しの時間だったけれど、\n私にとって忘れない瞬間になりました。',image:'images/03-ramen.jpg',caption:'あの日のラーメン屋'},
    {title:'11月29日 ♡',text:'今日は、私の誕生日。\nそして、私たちが初めてゆっくり話す日。\n一緒にランチかディナーを楽しんで、\n素敵な日本の神社にも行けたら嬉しいです。♡\nそして、今日という日に\n私たちの最初の思い出を作れたら嬉しいです。\n\nあなたとゆっくり話せることを、\n今から楽しみにしています。\nきっと今日が、\n私たちの物語の新しいページになると思います。♡',image:'images/04-shrine.jpg',caption:'私の誕生日 · 特別な一日'},
-   {title:'少しずつ、もっと知りたい',text:'毎日話して、あなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。あなたの瞳。\nそして、あなたと話している時間。\nその一つひとつが、いつの間にか私にとって\n大切なものになっていました。♡\nもしよかったら、これから少しずつ、\nお互いのことを知ることができたら嬉しいです。♡',image:'images/05-walk.jpg',caption:'少しずつ、あなたのことを'},
+   {title:'少しずつ、もっと知りたい',text:'毎日話して、あなたのことを少しずつ知って、\nもっと知りたいと思うようになりました。\nあなたの笑顔。あなたの瞳。\nそして、あなたと話している時間。\nその一つひとつが、いつの間にか私にとって\n大切なものになっていました。♡\nもしよかったら、これから少しずつ、\n一緒に歩く時間も増やしながら、\nお互いのことを知ることができたら嬉しいです。♡',image:'images/05-walk.png',caption:'一緒に歩く時間も、少しずつ'},
    {title:'リナへ ♡',text:'私たちが出会えたこと、\nそして、こうして毎日話せるようになったこと。\nそれは、私にとってとても素敵なことです。♡\n国も、育った場所も違う私たちが、\n日本で出会って、こうして少しずつお互いを知っていく。\nなんだか、不思議で素敵なことだと思います。\nこれからも、たくさん話して、たくさん笑って、\n一緒に素敵な思い出を作っていけたら嬉しいです。',image:'images/07-letter.jpg',caption:'小さな手紙'},
    {title:'これからの物語',eyebrow:'最後に、ひとつだけ ♡',text:'リナ、あなたと出会えて、本当に嬉しいです。♡\nまだ始まったばかりの私たちだけど、\nこれから少しずつ、一緒に素敵な思い出を作っていけたら嬉しいです。\n\nそして、今日が私たちにとって忘れない一日になりますように。\nこれから、どんな物語になるのか楽しみです。♡\n\nディワカル ♡ リナ\n次の章を書きましょう。♡',image:'images/06-final.jpg',caption:'ディワカル ♡ リナ'}
   ]},
@@ -243,7 +254,7 @@ const T={
    {title:'November 7 ♡',text:'On this day, we exchanged our LINE IDs.\nIt may have seemed like such a small thing,\nbut it made me really happy. ♡\nFrom the next day on,\nI started looking forward to talking with you every day.',image:'images/02-line.jpg',caption:'The day we exchanged LINE'},
    {title:'November 14 ♡',text:'On this day, you came to the ramen shop where I work.\nWe both knew the other person was there.\nBut we were too shy to even say “hello.” ♡\nI quietly watched you sitting at the corner table.\n\nIt was only a short moment,\nbut it became a moment I will never forget.',image:'images/03-ramen.jpg',caption:'That day at the ramen shop'},
    {title:'November 29 ♡',text:'Today is my birthday.\nAnd it is the day we finally get to talk properly for the first time.\nI would love to enjoy lunch or dinner together\nand, if we can, visit a beautiful Japanese shrine. ♡\nI hope we can make our first special memory today.\n\nI’m really looking forward to talking with you slowly and comfortably.\nI feel that today might become a new page in our story. ♡',image:'images/04-shrine.jpg',caption:'My birthday · A special day'},
-   {title:'I Want to Know You, Little by Little',text:'After talking every day and getting to know you little by little,\nI started wanting to know you even more.\nYour smile. Your eyes.\nAnd the time I spend talking with you.\nSomehow, each of these has become something precious to me. ♡\nIf you are comfortable with it,\nI would be happy if we could slowly get to know each other better. ♡',image:'images/05-walk.jpg',caption:'Getting to know you, little by little'},
+   {title:'I Want to Know You, Little by Little',text:'After talking every day and getting to know you little by little,\nI started wanting to know you even more.\nYour smile. Your eyes.\nAnd the time I spend talking with you.\nSomehow, each of these has become something precious to me. ♡\nIf you are comfortable with it,\nI would be happy if we could slowly spend more time walking together\nand get to know each other better. ♡',image:'images/05-walk.png',caption:'Walking together, little by little'},
    {title:'To Rina ♡',text:'The fact that we met,\nand that we can talk like this every day,\nis something truly wonderful to me. ♡\nWe come from different countries and grew up in different places,\nyet we met in Japan and are gradually getting to know each other.\nIt feels mysterious and wonderful somehow.\nI hope we can keep talking, keep laughing,\nand create many beautiful memories together.',image:'images/07-letter.jpg',caption:'A little letter'},
    {title:'Our Story From Here',eyebrow:'Just one last thing ♡',text:'Rina, I’m truly happy that I met you. ♡\nWe are still only at the beginning,\nbut I would be happy if we could slowly create beautiful memories together.\n\nAnd I hope today becomes a day we will never forget.\nI’m excited to see what kind of story we will write from here. ♡\n\nDiwakar ♡ Rina\nLet’s write the next chapter. ♡',image:'images/06-final.jpg',caption:'Diwakar ♡ Rina'}
   ]},
@@ -254,7 +265,7 @@ const T={
    {title:'Ngày 7 tháng 11 ♡',text:'Ngày hôm đó, chúng ta đã trao đổi LINE với nhau.\nCó thể đó chỉ là một điều rất nhỏ,\nnhưng với mình, mình thật sự rất vui. ♡\nTừ ngày hôm sau,\nmình bắt đầu mong chờ được nói chuyện với bạn mỗi ngày.',image:'images/02-line.jpg',caption:'Ngày chúng ta trao đổi LINE'},
    {title:'Ngày 14 tháng 11 ♡',text:'Ngày hôm đó, bạn đã đến quán ramen nơi mình làm việc.\nCả hai chúng ta đều biết người kia cũng đang ở đó.\nNhưng vì ngại ngùng, đến cả “xin chào” cũng không nói được. ♡\nMình chỉ lặng lẽ nhìn bạn ngồi ở chiếc bàn trong góc.\n\nKhoảnh khắc ấy chỉ kéo dài một chút,\nnhưng đã trở thành một khoảnh khắc mình không thể quên.',image:'images/03-ramen.jpg',caption:'Ngày hôm đó ở quán ramen'},
    {title:'Ngày 29 tháng 11 ♡',text:'Hôm nay là sinh nhật của mình.\nVà cũng là ngày chúng ta lần đầu tiên có thể thong thả trò chuyện với nhau.\nMình rất vui nếu chúng ta có thể cùng ăn trưa hoặc ăn tối,\nvà nếu có thể, cùng đến một ngôi đền hoặc chùa Nhật Bản thật đẹp. ♡\nMình hy vọng hôm nay chúng ta sẽ tạo nên kỷ niệm đầu tiên thật đặc biệt.\n\nMình thật sự mong chờ được nói chuyện với bạn thật thoải mái.\nMình cảm thấy hôm nay có thể sẽ trở thành một trang mới trong câu chuyện của chúng ta. ♡',image:'images/04-shrine.jpg',caption:'Sinh nhật của mình · Một ngày đặc biệt'},
-   {title:'Muốn hiểu bạn hơn, từng chút một',text:'Sau khi nói chuyện mỗi ngày và dần hiểu thêm về bạn,\nmình bắt đầu muốn biết về bạn nhiều hơn nữa.\nNụ cười của bạn. Đôi mắt của bạn.\nVà khoảng thời gian được trò chuyện cùng bạn.\nKhông biết từ lúc nào, từng điều nhỏ bé ấy\nđã trở nên rất quý giá với mình. ♡\nNếu bạn cảm thấy thoải mái,\nmình rất vui nếu từ từ chúng ta có thể hiểu nhau hơn. ♡',image:'images/05-walk.jpg',caption:'Từng chút một, hiểu về bạn hơn'},
+   {title:'Muốn hiểu bạn hơn, từng chút một',text:'Sau khi nói chuyện mỗi ngày và dần hiểu thêm về bạn,\nmình bắt đầu muốn biết về bạn nhiều hơn nữa.\nNụ cười của bạn. Đôi mắt của bạn.\nVà khoảng thời gian được trò chuyện cùng bạn.\nKhông biết từ lúc nào, từng điều nhỏ bé ấy\nđã trở nên rất quý giá với mình. ♡\nNếu bạn cảm thấy thoải mái,\nmình rất vui nếu chúng ta có thể từ từ cùng nhau đi dạo\nvà hiểu nhau hơn. ♡',image:'images/05-walk.png',caption:'Cùng nhau bước đi, từng chút một'},
    {title:'Gửi Rina ♡',text:'Việc chúng ta gặp được nhau,\nvà từ đó có thể nói chuyện với nhau mỗi ngày như thế này,\nlà một điều thật sự rất tuyệt vời đối với mình. ♡\nChúng ta đến từ những đất nước khác nhau, lớn lên ở những nơi khác nhau,\nnhưng lại gặp nhau ở Nhật Bản\nvà đang từng chút một tìm hiểu về nhau.\nThật kỳ diệu và thật đẹp.\nMình hy vọng chúng ta sẽ tiếp tục trò chuyện, tiếp tục cười,\nvà cùng nhau tạo nên thật nhiều kỷ niệm đẹp.',image:'images/07-letter.jpg',caption:'Một lá thư nhỏ'},
    {title:'Câu chuyện từ đây',eyebrow:'Cuối cùng, chỉ một điều thôi ♡',text:'Rina, mình thật sự rất vui vì đã gặp được bạn. ♡\nChúng ta mới chỉ bắt đầu thôi,\nnhưng mình rất vui nếu từ từ chúng ta có thể cùng nhau tạo nên những kỷ niệm thật đẹp.\n\nMình mong hôm nay sẽ trở thành một ngày mà cả hai chúng ta không thể quên.\nMình rất háo hức muốn biết câu chuyện của chúng ta từ đây sẽ trở thành như thế nào. ♡\n\nDiwakar ♡ Rina\nHãy cùng viết chương tiếp theo nhé. ♡',image:'images/06-final.jpg',caption:'Diwakar ♡ Rina'}
   ]}
@@ -278,15 +289,31 @@ function render(){
  $('eyebrow').textContent=c.eyebrow||'';$('eyebrow').style.display=c.eyebrow?'block':'none';
  $('heading').textContent=c.title;$('copy').textContent=c.text;
  $('accent').textContent=c.accent||'';$('accent').style.display=c.accent?'block':'none';
+ const content=$('content');
+ content.classList.toggle('final-page',index===t.c.length-1);
  $('languageChange').classList.toggle('show',index===t.c.length-1);
  $('artImage').src=c.image;$('artImage').alt=c.caption||'';$('caption').textContent=c.caption||'';
- $('back').disabled=index===0;$('next').textContent=index===t.c.length-1?t.restart:(c.button||t.next);
+ $('back').disabled=index===0;
+ $('next').textContent=index===t.c.length-1?t.restart:(c.button||t.next);
+ $('next').disabled=index===t.c.length-1;
  document.querySelector('.art').style.setProperty('--art-bg',`url("${c.image}")`);
+ document.querySelector('.card').classList.toggle('final-page',index===t.c.length-1);
  document.querySelector('.content').style.animation='none';void document.querySelector('.content').offsetWidth;document.querySelector('.content').style.animation='';
 }
 $('languageSelect').onchange=e=>{lang=e.target.value;applyLanguage()};
-$('languageChange').onclick=()=>{ $('languageOverlay').classList.remove('hide'); $('languageSelect').value=lang; };
-$('startStory').onclick=()=>{$('languageOverlay').classList.add('hide');$('letterOverlay').classList.remove('hidden');applyLanguage()};
+$('languageChange').onclick=()=>{
+  // Remember the current chapter when changing language from the final page.
+  $('languageOverlay').dataset.returnIndex=String(index);
+  $('languageOverlay').classList.remove('hide');
+  $('languageSelect').value=lang;
+};
+$('startStory').onclick=()=>{
+  // Starting the story after a language change always returns to the opening envelope page.
+  index=0;
+  $('languageOverlay').classList.add('hide');
+  $('letterOverlay').classList.remove('hidden');
+  applyLanguage();
+};
 $('openLetter').onclick=()=>{$('envelopeWrap').classList.add('opening');setTimeout(()=>$('letterOverlay').classList.add('hide'),650)};
 $('next').onclick=()=>{const t=T[lang];index=index===t.c.length-1?0:index+1;render()};
 $('back').onclick=()=>{if(index>0){index--;render()}};
